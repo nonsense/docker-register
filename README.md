@@ -1,3 +1,24 @@
+### Changes to https://github.com/jwilder/docker-register
+
+`docker-register` registers etcd configuration in the following format:
+
+      etcdctl set /backends/service_name/1/container_a "127.0.0.1:8000" --ttl 60
+      etcdctl set /backends/service_name/1/container_b "127.0.0.2:8000" --ttl 60
+      etcdctl set /backends/service_name/1/port "8005" --ttl 60
+      etcdctl set /backends/service_name/2/container_a "127.0.0.1:8001" --ttl 60
+      etcdctl set /backends/service_name/2/container_b "127.0.0.2:8001" --ttl 60
+      etcdctl set /backends/service_name/2/port "8006" --ttl 60
+
+rather than the original:
+
+      etcdctl set /backends/service_name/container_a "127.0.0.1:8000" --ttl 60
+      etcdctl set /backends/service_name/container_b "127.0.0.2:8000" --ttl 60
+      etcdctl set /backends/service_name/port "8005" --ttl 60
+
+which basically provides multi-port support / registration.
+
+------
+
 docker-register sets up a container running [docker-gen][1].  docker-gen dynamically generate a
 python script when containers are started and stopped.  This generated script registers the running
 containers host IP and port in etcd with a TTL.  It works in tandem with docker-discover which
